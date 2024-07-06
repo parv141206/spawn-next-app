@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "target": "ES2023",
+    "outDir": "dist",
+    "module": "CommonJS"
+  },
+  "include": ["src/**/*", "dist/templates"],
+  "exclude": ["node_modules", "dist"]
+}
