@@ -12,6 +12,7 @@ export function writeWithNextAuth(rootFolder: string) {
 
   copyFolderRecursive(srcAppFolder, destAppFolder);
 }
+
 export function writeNormal(rootFolder: string) {
   const srcAppFolder = path.join(__dirname, "../src/templates/ts/normal");
   const destAppFolder = path.join(rootFolder);
@@ -19,6 +20,66 @@ export function writeNormal(rootFolder: string) {
   fs.mkdirSync(destAppFolder, { recursive: true });
 
   copyFolderRecursive(srcAppFolder, destAppFolder);
+}
+
+export function writeWithTheme(rootFolder: string) {
+  // Write the files from the "with-next-auth" template
+  writeWithNextAuth(rootFolder);
+
+  // Replace the "layout.tsx" file with the one from the "with-theme" template
+  const srcLayoutPath = path.join(
+    __dirname,
+    "../src/templates/ts/with-theme",
+    "without-auth.tsx"
+  );
+  const destLayoutPath = path.join(rootFolder, "app", "layout.tsx");
+
+  fs.copyFileSync(srcLayoutPath, destLayoutPath);
+
+  // Create the "_contexts" folder and copy the "Theme.tsx" file
+  const contextsFolderPath = path.join(rootFolder, "app", "_contexts");
+  fs.mkdirSync(contextsFolderPath, { recursive: true });
+
+  const srcThemePath = path.join(
+    __dirname,
+    "../src/templates/ts/with-theme",
+    "Theme.tsx"
+  );
+  const destThemePath = path.join(contextsFolderPath, "Theme.tsx");
+
+  fs.copyFileSync(srcThemePath, destThemePath);
+
+  // Delete the "api" folder (and everything inside)
+  const apiFolderPath = path.join(rootFolder, "app", "api");
+  deleteFolderRecursive(apiFolderPath);
+}
+
+export function writeWithNextAuthAndTheme(rootFolder: string) {
+  // Write the files from the "with-next-auth" template
+  writeWithNextAuth(rootFolder);
+
+  // Replace the "layout.tsx" file with the one from the "with-theme" template
+  const srcLayoutPath = path.join(
+    __dirname,
+    "../src/templates/ts/with-theme",
+    "layout.tsx"
+  );
+  const destLayoutPath = path.join(rootFolder, "app", "layout.tsx");
+
+  fs.copyFileSync(srcLayoutPath, destLayoutPath);
+
+  // Create the "_contexts" folder and copy the "Theme.tsx" file
+  const contextsFolderPath = path.join(rootFolder, "app", "_contexts");
+  fs.mkdirSync(contextsFolderPath, { recursive: true });
+
+  const srcThemePath = path.join(
+    __dirname,
+    "../src/templates/ts/with-theme",
+    "Theme.tsx"
+  );
+  const destThemePath = path.join(contextsFolderPath, "Theme.tsx");
+
+  fs.copyFileSync(srcThemePath, destThemePath);
 }
 
 function copyFolderRecursive(src: string, dest: string) {
@@ -33,4 +94,21 @@ function copyFolderRecursive(src: string, dest: string) {
       fs.copyFileSync(srcFilePath, destFilePath);
     }
   });
+}
+
+export function deleteFolderRecursive(folderPath: string) {
+  if (fs.existsSync(folderPath)) {
+    fs.readdirSync(folderPath).forEach((file) => {
+      const curPath = path.join(folderPath, file);
+      if (fs.lstatSync(curPath).isDirectory()) {
+        // Recursive call for directories
+        deleteFolderRecursive(curPath);
+      } else {
+        // Delete files
+        fs.unlinkSync(curPath);
+      }
+    });
+    // Delete the folder
+    fs.rmdirSync(folderPath);
+  }
 }
