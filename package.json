@@ -1,7 +1,7 @@
 {
   "name": "spawn-next-app",
-  "version": "1.1.0",
-  "description": "",
+  "version": "1.1.1",
+  "description": "Simply a CLI which helps you create a NextJS app with features like next-auth and theming by default! ",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -12,8 +12,12 @@
     "build": "tsup",
     "prepare": "npm run build"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "react",
+    "next",
+    "nextjs"
+  ],
+  "author": "parv141206",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.14.10",
