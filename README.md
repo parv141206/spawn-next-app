@@ -10,6 +10,7 @@ _Made with ❤️ by [parv141206](https://github.com/parv141206)_
 - It comes with several built-in features, such as:
   - Templates for Next.js authentication (using Next.Auth)
   - Templates for theming, including a context and provider
+  - Templates for MongoDB!
 
 This means you don't have to manually set up these features, saving you time and allowing you to focus on developing your app. ✨
 
