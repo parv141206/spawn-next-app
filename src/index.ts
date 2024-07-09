@@ -15,6 +15,10 @@ import {
   writeWithNextAuth,
   writeWithNextAuthAndTheme,
   writeWithTheme,
+  writeWithMongo,
+  writeWithMongoAndTheme,
+  writeWithMongoAndThemeAndAuth,
+  writeWithMongoAndAuth,
 } from "./functions/TSFunctions";
 
 const program = new commander.Command();
@@ -34,6 +38,7 @@ program
       name: "my-app",
       includesNextAuth: false,
       includesTheme: false,
+      includesMongo: false,
     };
 
     console.log("Welcome to NextJS CLI!");
@@ -74,7 +79,18 @@ program
               userConfig.includesTheme = false;
             }
 
-            rl.close();
+            rl.question(
+              "-> Do you want to include MongoDB? (y/n): ",
+              (answer) => {
+                if (answer.toLowerCase() === "y" || answer.toLowerCase() === "yes") {
+                  userConfig.includesMongo = true;
+                } else {
+                  userConfig.includesMongo = false;
+                }
+
+                rl.close();
+              }
+            );
           }
         );
       });
@@ -83,14 +99,32 @@ program
         // Create the directory and write the project files
         fs.mkdirSync(userConfig.rootFolder, { recursive: true });
         if (userConfig.includesNextAuth) {
-          writeWithNextAuth(userConfig.rootFolder);
           if (userConfig.includesTheme) {
-            writeWithNextAuthAndTheme(userConfig.rootFolder);
+            if (userConfig.includesMongo) {
+              writeWithMongoAndThemeAndAuth(userConfig.rootFolder);
+            } else {
+              writeWithNextAuthAndTheme(userConfig.rootFolder);
+            }
+          } else {
+            if (userConfig.includesMongo) {
+              writeWithMongoAndAuth(userConfig.rootFolder);
+            } else {
+              writeWithNextAuth(userConfig.rootFolder);
+            }
           }
         } else {
-          writeNormal(userConfig.rootFolder);
           if (userConfig.includesTheme) {
-            writeWithTheme(userConfig.rootFolder);
+            if (userConfig.includesMongo) {
+              writeWithMongoAndTheme(userConfig.rootFolder);
+            } else {
+              writeWithTheme(userConfig.rootFolder);
+            }
+          } else {
+            if (userConfig.includesMongo) {
+              writeWithMongo(userConfig.rootFolder);
+            } else {
+              writeNormal(userConfig.rootFolder);
+            }
           }
         }
         console.log("Project created successfully!");

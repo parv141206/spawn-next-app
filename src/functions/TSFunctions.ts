@@ -81,7 +81,41 @@ export function writeWithNextAuthAndTheme(rootFolder: string) {
 
   fs.copyFileSync(srcThemePath, destThemePath);
 }
+export function writeWithMongo(rootFolder: string) {
+  const srcAppFolder = path.join(__dirname, "../src/templates/ts/mongodb/normal");
+  const destAppFolder = path.join(rootFolder); // No "mongo" folder
 
+  fs.mkdirSync(destAppFolder, { recursive: true });
+
+  copyFolderRecursive(srcAppFolder, destAppFolder);
+}
+
+export function writeWithMongoAndTheme(rootFolder: string) {
+  const srcAppFolder = path.join(__dirname, "../src/templates/ts/mongodb/with-theme");
+  const destAppFolder = path.join(rootFolder); // No "mongo-and-theme" folder
+
+  fs.mkdirSync(destAppFolder, { recursive: true });
+
+  copyFolderRecursive(srcAppFolder, destAppFolder);
+}
+
+export function writeWithMongoAndThemeAndAuth(rootFolder: string) {
+  const srcAppFolder = path.join(__dirname, "../src/templates/ts/mongodb/with-auth-with-theme");
+  const destAppFolder = path.join(rootFolder); // No "mongo-and-theme-and-auth" folder
+
+  fs.mkdirSync(destAppFolder, { recursive: true });
+
+  copyFolderRecursive(srcAppFolder, destAppFolder);
+}
+
+export function writeWithMongoAndAuth(rootFolder: string) {
+  const srcAppFolder = path.join(__dirname, "../src/templates/ts/mongodb/with-auth");
+  const destAppFolder = path.join(rootFolder); // No "mongo-and-auth" folder
+
+  fs.mkdirSync(destAppFolder, { recursive: true });
+
+  copyFolderRecursive(srcAppFolder, destAppFolder);
+}
 function copyFolderRecursive(src: string, dest: string) {
   fs.readdirSync(src).forEach((file) => {
     const srcFilePath = path.join(src, file);

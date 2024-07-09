@@ -15,3 +15,4 @@ export function writePageFile(rootFolder: string) {
 
   fs.copyFileSync(templatePath, pageFile);
 }
+
